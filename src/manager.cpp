@@ -278,12 +278,16 @@ Bot *BotManager::findAliveBot () {
    return nullptr;
 }
 
-void BotManager::frame () {
-   // this function calls showframe function for all available at call moment bots
-
+void FrameThread(void) {
    for (const auto &bot : m_bots) {
       bot->frame ();
    }
+}
+
+void BotManager::frame () {
+   // this function calls showframe function for all available at call moment bots
+
+   async(launch::async, FrameThread);
 }
 
 void BotManager::addbot (StringRef name, int difficulty, int personality, int team, int skin, bool manual) {
