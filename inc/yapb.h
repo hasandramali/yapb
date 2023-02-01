@@ -18,6 +18,7 @@ using namespace cr;
 
 #include <product.h>
 #include <module.h>
+#include <future>
 
 // forwards
 class Bot;
