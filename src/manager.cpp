@@ -6,6 +6,7 @@
 //
 
 #include <yapb.h>
+#include <future>
 
 ConVar cv_autovacate ("yb_autovacate", "1", "Kick bots to automatically make room for human players.");
 
