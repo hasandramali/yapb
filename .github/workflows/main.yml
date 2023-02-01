@@ -1,0 +1,47 @@
+name: build
+
+on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - '**.md'
+
+  pull_request:
+    types: [opened, reopened, synchronize]
+  release:
+    types: [published]
+
+jobs:
+  unix:
+    strategy:
+      matrix:
+        include:
+          - name: linux-x86
+            bin: yapb.so
+            opts: CXX=gcc-11 CXX_LD=gold meson setup build
+
+    name: ${{ matrix.name }}
+
+    runs-on: ubuntu-latest
+    container: j4sdk/x86-buildtools:latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: true
+
+      - name: Configure Build
+        run: |
+          ${{ matrix.opts }}
+
+      - name: Compile Source
+        run: |
+          meson compile -v -C build
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.bin }}
+          path: build/${{ matrix.bin }}
