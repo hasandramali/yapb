@@ -6,7 +6,6 @@
 //
 
 #include <yapb.h>
-#include <future>
 
 ConVar cv_autovacate ("yb_autovacate", "1", "Kick bots to automatically make room for human players.");
 
@@ -279,16 +278,12 @@ Bot *BotManager::findAliveBot () {
    return nullptr;
 }
 
-void FrameThread(void) {
-   for (const auto &bot : m_bots) {
-      bot->frame ();
-   }
-}
-
 void BotManager::frame () {
    // this function calls showframe function for all available at call moment bots
 
-   async(launch::async, FrameThread);
+   for (const auto &bot : m_bots) {
+      bot->frame ();
+   }
 }
 
 void BotManager::addbot (StringRef name, int difficulty, int personality, int team, int skin, bool manual) {
