@@ -3,7 +3,7 @@
 // Copyright © 2004-2023 YaPB Project <yapb@jeefo.net>.
 //
 // SPDX-License-Identifier: MIT
-//
+// 
 
 #include <yapb.h>
 
